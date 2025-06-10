@@ -1,0 +1,77 @@
+# =============== Unity ==================
+
+[Ll]ibrary/
+[Tt]emp/
+[Oo]bj/
+[Bb]uild/
+[Bb]uilds/
+[Ll]ogs/
+[Mm]emoryCaptures/
+
+# Other Unity auto-generated folders
+UserSettings/
+*.csproj
+*.unityproj
+*.sln
+*.suo
+*.tmp
+*.user
+*.userprefs
+*.pidb
+*.booproj
+*.svd
+
+# Asset Store cache
+*.pidb.meta
+*.pdb
+*.mdb
+
+# Debug and symbol files
+*.ilk
+*.meta
+*.pdb
+*.mdb
+*.opendb
+
+# Unity Cloud Build files
+[Uu]ser[Bb]uild/
+
+# Crash report files
+crash.log
+
+# Unity Cache Server export temp files
+/Library/com.unity.cache/
+
+# =============== Blender ================
+
+# Ignore Blender temporary files
+BlenderSources/*.blend1
+BlenderSources/*.blend2
+BlenderSources/*.blend@
+
+# Ignore the entire BlenderSources folder to not version .blend sources
+/BlenderSources/
+
+# =============== Mirror / Networking ===============
+
+# No specific rule needed since Mirror is installed via Package Manager
+
+# =============== Visual Studio Code / WSL / VS ===============
+
+.vscode/
+.vscode/*
+.history/
+
+# =============== macOS ===============
+
+.DS_Store
+
+# =============== Windows ===============
+
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# =============== Others ===============
+
+# To keep empty folders versioned, add a .gitkeep file inside
