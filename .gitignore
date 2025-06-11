@@ -52,6 +52,9 @@ BlenderSources/*.blend@
 # Ignore the entire BlenderSources folder to not version .blend sources
 /BlenderSources/
 
+# Ignore the entire AssetSources folder to not version .blend and FBX sources from free original assets
+/AssetSources/
+
 # =============== Mirror / Networking ===============
 
 # No specific rule needed since Mirror is installed via Package Manager
