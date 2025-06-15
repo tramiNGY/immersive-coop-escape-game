@@ -55,6 +55,9 @@ BlenderSources/*.blend@
 # Ignore the entire AssetSources folder to not version .blend and FBX sources from free original assets
 /AssetSources/
 
+# Ignore the entire Builds folder to not version .exe builds from Unity
+/Builds/
+
 # =============== Mirror / Networking ===============
 
 # No specific rule needed since Mirror is installed via Package Manager
