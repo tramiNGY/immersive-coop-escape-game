@@ -58,6 +58,9 @@ BlenderSources/*.blend@
 # Ignore the entire Builds folder to not version .exe builds from Unity
 /Builds/
 
+# Ignore the entire MaterialSources containing original textures and materials
+/MaterialSources/
+
 # =============== Mirror / Networking ===============
 
 # No specific rule needed since Mirror is installed via Package Manager
