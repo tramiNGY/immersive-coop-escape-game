@@ -6,18 +6,29 @@ using Mirror;
 
 public class PlayerController : NetworkBehaviour
 {
-    public enum PlayerRole {Player1, Player2};
-    [SerializeField] private Transform playerCamera;
-    [SerializeField] private float mouseSensitivity = 100f;
-    private Vector2 _lookInput;
-    private float _xPitch = 0f;
-    private float _yYaw = 0f;
+    public enum PlayerRole { Player1, Player2 };
     [SyncVar] public PlayerRole role;
+    public string currentScene;
+    // Action Look
+    [SerializeField] private Transform _playerCamera;
+    [SerializeField] private float _mouseSensitivity = 5f;
+    private Vector2 _mouseDelta; // Mouse movement
+    private float _xPitch = 0f; // Vertical rotation around x axis
+    private float _yYaw = 0f; // Horizontal rotation around y axis
+    // Actions HoldLeftArm and HoldRightArm
+    private bool _isLeftArmActive = false;
+    private bool _isRightArmActive = false;
+    [SerializeField] private Transform _bodyTransform; // player's body reference
+    [SerializeField] private Transform _leftArmIKTarget; // Two Bone IK constraint target which the arm follows
+    [SerializeField] private Transform _rightArmIKTarget;
+    [SerializeField] private float _armDistance = 1.5f; // arm's base distance from torso
+    private Vector3 _leftArmPosition = Vector3.zero;
+    private Vector3 _rightArmPosition = Vector3.zero;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-
+        currentScene = SceneManager.GetActiveScene().name;
     }
 
     // Update is called once per frame
@@ -26,14 +37,23 @@ public class PlayerController : NetworkBehaviour
         if (!isLocalPlayer)
             return;
 
-        HandleLook();
+        if (_isLeftArmActive) // Left mouse click hold -> Move Left Arm
+        {
+            HandleLeftArmPerformed();
+        }
 
+        else if (_isRightArmActive) // Right mouse click hold -> Move Right Arm
+        {
+            HandleRightArmPerformed();
+        }
+
+        else // No mouse click hold -> Move Head Camera
+            HandleLook();
     }
 
     // Mirror Callbacks
     public override void OnStartLocalPlayer()
     {
-        string currentScene = SceneManager.GetActiveScene().name;
         Debug.Log("current scene: " + currentScene);
 
         if (currentScene == "Room1_Sea")
@@ -55,21 +75,111 @@ public class PlayerController : NetworkBehaviour
     // Input System Events
     public void OnLook(InputAction.CallbackContext context)
     {
-        _lookInput = context.ReadValue<Vector2>();
+        _mouseDelta = context.ReadValue<Vector2>();
+    }
+
+    public void OnHoldLeftArm(InputAction.CallbackContext context)
+    {
+        if (context.started) // Mouse button clicked
+        {
+            _isLeftArmActive = true;
+            HandleLeftArmStart();
+        }
+
+        if (context.performed) // Mouse button held long enough
+        {
+            _isLeftArmActive = true;
+        }
+
+        if (context.canceled) // Mouse button unpressed
+        {
+            _isLeftArmActive = false;
+            HandleLeftArmCanceled();
+        }
+
+    }
+
+    public void OnHoldRightArm(InputAction.CallbackContext context)
+    {
+        if (context.started)
+        {
+            _isRightArmActive = true;
+            HandleRightArmStart();
+        }
+
+        else if (context.performed)
+        {
+            _isRightArmActive = true;
+        }
+
+        else if (context.canceled)
+        {
+            _isRightArmActive = false;
+            HandleRightArmCanceled();
+        }
 
     }
 
     // Input Logic
     private void HandleLook()
     {
-        float deltaX = _lookInput.x * mouseSensitivity * Time.deltaTime;
-        float deltaY = _lookInput.y * mouseSensitivity * Time.deltaTime;
+        float deltaX = _mouseDelta.x * _mouseSensitivity * Time.deltaTime; // deltaTime to make movement independant from frame rate FPS
+        float deltaY = _mouseDelta.y * _mouseSensitivity * Time.deltaTime;
 
         _xPitch -= deltaY;
-        _xPitch = Mathf.Clamp(_xPitch, -80f, 80f);
+        _xPitch = Mathf.Clamp(_xPitch, -80f, 80f); // Limit Head camera realistic rotation
         _yYaw += deltaX;
         _yYaw = Mathf.Clamp(_yYaw, -60f, 60f);
 
-        playerCamera.localRotation = Quaternion.Euler(_xPitch, _yYaw, 0f);
+        _playerCamera.localRotation = Quaternion.Euler(_xPitch, _yYaw, 0f); // Camera local rotation from euler's angles
+    }
+
+    private void HandleLeftArmStart()
+    {
+
+    }
+
+    private void HandleLeftArmPerformed()
+    {
+        Vector3 leftArmDelta = new Vector3(_mouseDelta.x, _mouseDelta.y, 0f); // Mouse movement
+
+        _leftArmPosition -= _bodyTransform.right * leftArmDelta.x; // Arm's position based on mouse movement
+        _leftArmPosition.x = Mathf.Clamp(_leftArmPosition.x, -4f, 1f); // Limit arm's position left/right
+        _leftArmPosition += _bodyTransform.up * leftArmDelta.y;
+        _leftArmPosition.y = Mathf.Clamp(_leftArmPosition.y, -5f, 5f); // Limit arm's position up/down
+
+        Vector3 baseLeftArmPosition = _bodyTransform.position - _bodyTransform.forward * _armDistance; // Base arm's position when click in front of torso
+
+        _leftArmIKTarget.position =  _leftArmPosition + baseLeftArmPosition; // Arm's position following IK target
+    }
+
+    private void HandleLeftArmCanceled()
+    {
+
+    }
+
+    private void HandleRightArmStart()
+    {
+
+    }
+
+    private void HandleRightArmPerformed()
+    {
+        Vector3 rightArmDelta = new Vector3(_mouseDelta.x, _mouseDelta.y, 0f);
+
+        _rightArmPosition -= _bodyTransform.right * rightArmDelta.x;
+        _rightArmPosition.x = Mathf.Clamp(_rightArmPosition.x, -1f, 4f);
+        _rightArmPosition += _bodyTransform.up * rightArmDelta.y;
+        _rightArmPosition.y = Mathf.Clamp(_rightArmPosition.y, -5f, 5f);
+
+        Vector3 baseRightArmPosition = _bodyTransform.position - _bodyTransform.forward * _armDistance;
+
+        _rightArmIKTarget.position =  _rightArmPosition + baseRightArmPosition;
+
+    }
+
+    private void HandleRightArmCanceled()
+    {
+        
     }
 }

@@ -254,7 +254,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1971118627903474605, guid: d008147e9a7617e4e8a458a251b0dc85, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.185
+      value: -0.173
       objectReference: {fileID: 0}
     - target: {fileID: 1971118627903474605, guid: d008147e9a7617e4e8a458a251b0dc85, type: 3}
       propertyPath: m_LocalPosition.z
@@ -423,7 +423,7 @@ MonoBehaviour:
   offlineScene: 
   onlineScene: 
   offlineSceneLoadDelay: 0
-  transport: {fileID: 0}
+  transport: {fileID: 1193945647}
   networkAddress: localhost
   maxConnections: 100
   disconnectInactiveConnections: 0
