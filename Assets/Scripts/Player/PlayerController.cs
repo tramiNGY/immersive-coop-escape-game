@@ -11,6 +11,8 @@ public class PlayerController : NetworkBehaviour
     public string currentScene;
     // Action Look
     [SerializeField] private Transform _playerCamera;
+    [SerializeField] private Transform _headTarget; // Multi-aim constraint playerCamera following headTarget
+    [SerializeField] private float _headTargetDistance = 2f; // distance of headTarget in front of playerCamera
     [SerializeField] private float _mouseSensitivity = 5f;
     private Vector2 _mouseDelta; // Mouse movement
     private float _xPitch = 0f; // Vertical rotation around x axis
@@ -47,8 +49,12 @@ public class PlayerController : NetworkBehaviour
             HandleRightArmPerformed();
         }
 
-        else // No mouse click hold -> Move Head Camera
+        else // No mouse click hold -> Move HeadTarget -> Head Camera follows
+        {
             HandleLook();
+            _headTarget.position = _playerCamera.position + _playerCamera.forward * _headTargetDistance; // Places headTarget position in front of the new playerCamera direction
+            _headTarget.rotation = _playerCamera.rotation;
+        }
     }
 
     // Mirror Callbacks
