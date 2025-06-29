@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5798458137283139319}
   m_Layer: 0
-  m_Name: Right_PivotPaddle
+  m_Name: Left_PivotPaddle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -310,7 +310,7 @@ GameObject:
   - component: {fileID: 278600941407800360}
   - component: {fileID: 837795455780837220}
   m_Layer: 0
-  m_Name: Left_Rowlock
+  m_Name: Right_Rowlock
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -397,7 +397,7 @@ GameObject:
   - component: {fileID: 8595909232311128264}
   - component: {fileID: 258644062729935470}
   m_Layer: 0
-  m_Name: Left_Paddle
+  m_Name: Right_Paddle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -569,7 +569,7 @@ GameObject:
   - component: {fileID: 8064517747462196303}
   - component: {fileID: 1280368500990664587}
   m_Layer: 0
-  m_Name: Right_Rowlock
+  m_Name: Left_Rowlock
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -998,7 +998,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4850470130424303643}
   m_Layer: 0
-  m_Name: Left_PivotPaddle
+  m_Name: Right_PivotPaddle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1152,7 +1152,7 @@ GameObject:
   - component: {fileID: 4107346394969686259}
   - component: {fileID: 5130179986245372115}
   m_Layer: 0
-  m_Name: Right_Paddle
+  m_Name: Left_Paddle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
