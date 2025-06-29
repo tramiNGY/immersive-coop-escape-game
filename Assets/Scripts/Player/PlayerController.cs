@@ -158,7 +158,7 @@ public class PlayerController : NetworkBehaviour
 
         Vector3 leftTargetPosition = _leftArmPosition + baseLeftArmPosition;
 
-        _leftArmIKTarget.position =  Vector3.Lerp(_leftArmIKTarget.position, leftTargetPosition, 1.6f * Time.deltaTime); // Lerp Linear interpolation between 2 frames arm's position to smooth movement
+        _leftArmIKTarget.position =  Vector3.Lerp(_leftArmIKTarget.position, leftTargetPosition, 0.8f * Time.deltaTime); // Lerp Linear interpolation between 2 frames arm's position to smooth movement
     }
 
     private void HandleLeftArmCanceled()
@@ -184,7 +184,7 @@ public class PlayerController : NetworkBehaviour
 
         Vector3 rightTargetPosition = _rightArmPosition + baseRightArmPosition;
 
-        _rightArmIKTarget.position =  Vector3.Lerp(_rightArmIKTarget.position, rightTargetPosition, 1.6f * Time.deltaTime);
+        _rightArmIKTarget.position =  Vector3.Lerp(_rightArmIKTarget.position, rightTargetPosition, 0.8f * Time.deltaTime);
 
     }
 
