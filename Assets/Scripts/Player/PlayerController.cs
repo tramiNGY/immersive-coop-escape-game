@@ -31,6 +31,7 @@ public class PlayerController : NetworkBehaviour
     void Start()
     {
         currentScene = SceneManager.GetActiveScene().name;
+        Cursor.lockState = CursorLockMode.Locked; // mouse pointer locked to center of view constrained in window, invisible
     }
 
     // Update is called once per frame
