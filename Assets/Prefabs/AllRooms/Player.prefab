@@ -639,6 +639,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5021793778731466769}
+  - component: {fileID: 4183780696412389458}
+  - component: {fileID: 319039927302885759}
+  - component: {fileID: 7239254758377897364}
   m_Layer: 0
   m_Name: def_hand_L
   m_TagString: Untagged
@@ -666,6 +669,67 @@ Transform:
   - {fileID: 5615942999712949514}
   m_Father: {fileID: 1799482047777773939}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!135 &4183780696412389458
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2142517757785300253}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!54 &319039927302885759
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2142517757785300253}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!114 &7239254758377897364
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2142517757785300253}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5697ee0e0aa96cc4490b7ee33c4e5f65, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentGrabableObject: {fileID: 0}
 --- !u!1 &2251720453874685766
 GameObject:
   m_ObjectHideFlags: 0
@@ -1066,6 +1130,22 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 760e68d5-b97f-4455-8ca5-e9ad41aced01
     m_ActionName: Player/New action
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8242394537213244658}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_MethodName: OnGrab
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: b6d93455-4f0f-4fcf-a7a8-461ebeafb664
+    m_ActionName: 'Player/Grab[/Keyboard/e]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -1096,6 +1176,8 @@ MonoBehaviour:
   _leftArmIKTarget: {fileID: 7475632224488807038}
   _rightArmIKTarget: {fileID: 9223123736994391617}
   _armDistance: 1.5
+  _leftHandGrabDetector: {fileID: 7239254758377897364}
+  _rightHandGrabDetector: {fileID: 2750512845911234368}
 --- !u!143 &8966192087596457030
 CharacterController:
   m_ObjectHideFlags: 0
@@ -1857,9 +1939,9 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4213014265903315354}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.9659258, y: 0, z: 0.2588191, w: 0}
-  m_LocalPosition: {x: -0.383, y: 0.6372, z: 0.047}
-  m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
+  m_LocalRotation: {x: 0.9659258, y: -0, z: 0.2588191, w: 0}
+  m_LocalPosition: {x: -0.388, y: 0.6619, z: 0.05}
+  m_LocalScale: {x: 0.2559216, y: 0.2559216, z: 0.2559216}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2606486292660878390}
@@ -2680,6 +2762,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1364378627927935422}
+  - component: {fileID: 1765951961184896117}
+  - component: {fileID: 1949823928115553120}
+  - component: {fileID: 2750512845911234368}
   m_Layer: 0
   m_Name: def_hand_R
   m_TagString: Untagged
@@ -2707,6 +2792,67 @@ Transform:
   - {fileID: 2617552122016860158}
   m_Father: {fileID: 2521676211829724783}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!135 &1765951961184896117
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6430175305874039605}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!54 &1949823928115553120
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6430175305874039605}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!114 &2750512845911234368
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6430175305874039605}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5697ee0e0aa96cc4490b7ee33c4e5f65, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentGrabableObject: {fileID: 0}
 --- !u!1 &6433357160216833892
 GameObject:
   m_ObjectHideFlags: 0
@@ -3364,7 +3510,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0.9659258, y: 0, z: -0.2588191, w: 0}
   m_LocalPosition: {x: 0.388, y: 0.6619, z: 0.05}
-  m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
+  m_LocalScale: {x: 0.2559216, y: 0.2559216, z: 0.2559216}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5749770322564979822}
