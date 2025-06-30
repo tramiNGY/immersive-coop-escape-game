@@ -220,14 +220,26 @@ public class PlayerController : NetworkBehaviour
     {
         HandGrabDetector activeHandGrab;
         if (_isLeftArmActive)
+        {
             activeHandGrab = _leftHandGrabDetector;
+        }
         else
+        {
             activeHandGrab = _rightHandGrabDetector;
+        }
 
         GameObject objectToGrab = activeHandGrab.currentGrabableObject; // Fetch grabbable object detected
         if (objectToGrab != null) // if null then the object is not grabbable
         {
+            GrabbableObject grabbable = objectToGrab.GetComponent<GrabbableObject>();
+            if (grabbable != null && grabbable.grabPoint != null)
+            {
+                activeHandGrab.transform.position = grabbable.grabPoint.position; // Put hand to grabPoint position
+                activeHandGrab.transform.rotation = grabbable.grabPoint.rotation;
+            }
+
             objectToGrab.transform.SetParent(activeHandGrab.transform); // Parent hand moves -> object moves
+
             Rigidbody rb = objectToGrab.GetComponent<Rigidbody>();
             if (rb != null)
                 rb.isKinematic = true; // prevents object from falling with gravity when hold by hand
