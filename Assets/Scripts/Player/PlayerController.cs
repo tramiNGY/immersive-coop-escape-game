@@ -26,6 +26,11 @@ public class PlayerController : NetworkBehaviour
     [SerializeField] private float _armDistance = 1.5f; // arm's base distance from torso
     private Vector3 _leftArmPosition = Vector3.zero;
     private Vector3 _rightArmPosition = Vector3.zero;
+    // Action Grab
+    private bool _isGrabbed = false;
+    [SerializeField] private HandGrabDetector _leftHandGrabDetector;
+    [SerializeField] private HandGrabDetector _rightHandGrabDetector;
+    
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -127,6 +132,14 @@ public class PlayerController : NetworkBehaviour
 
     }
 
+    public void OnGrab(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            HandleGrab();
+        }
+    }
+
     // Input Logic
     private void HandleLook()
     {
@@ -159,7 +172,7 @@ public class PlayerController : NetworkBehaviour
 
         Vector3 leftTargetPosition = _leftArmPosition + baseLeftArmPosition;
 
-        _leftArmIKTarget.position =  Vector3.Lerp(_leftArmIKTarget.position, leftTargetPosition, 0.8f * Time.deltaTime); // Lerp Linear interpolation between 2 frames arm's position to smooth movement
+        _leftArmIKTarget.position = Vector3.Lerp(_leftArmIKTarget.position, leftTargetPosition, 0.8f * Time.deltaTime); // Lerp Linear interpolation between 2 frames arm's position to smooth movement
     }
 
     private void HandleLeftArmCanceled()
@@ -173,7 +186,7 @@ public class PlayerController : NetworkBehaviour
     }
 
     private void HandleRightArmPerformed()
-    {
+     {
         Vector3 rightArmDelta = new Vector3(_mouseDelta.x, _mouseDelta.y, 0f);
 
         _rightArmPosition -= _bodyTransform.right * rightArmDelta.x;
@@ -191,6 +204,55 @@ public class PlayerController : NetworkBehaviour
 
     private void HandleRightArmCanceled()
     {
-        
+
+    }
+
+    private void HandleGrab()
+    {
+        Debug.Log("Grab action triggered");
+        if (!_isGrabbed)
+            StartGrab();
+        else
+            StopGrab();
+    }
+
+    private void StartGrab()
+    {
+        HandGrabDetector activeHandGrab;
+        if (_isLeftArmActive)
+            activeHandGrab = _leftHandGrabDetector;
+        else
+            activeHandGrab = _rightHandGrabDetector;
+
+        GameObject objectToGrab = activeHandGrab.currentGrabableObject; // Fetch grabbable object detected
+        if (objectToGrab != null) // if null then the object is not grabbable
+        {
+            objectToGrab.transform.SetParent(activeHandGrab.transform); // Parent hand moves -> object moves
+            Rigidbody rb = objectToGrab.GetComponent<Rigidbody>();
+            if (rb != null)
+                rb.isKinematic = true; // prevents object from falling with gravity when hold by hand
+            _isGrabbed = true;
+            Debug.Log("Started grabbing: " + objectToGrab.name);
+        }
+
+    }
+
+    private void StopGrab()
+    {
+        HandGrabDetector activeHandGrab;
+        if (_isLeftArmActive)
+            activeHandGrab = _leftHandGrabDetector;
+        else
+            activeHandGrab = _rightHandGrabDetector;
+
+        GameObject objectToGrab = activeHandGrab.currentGrabableObject;
+        if (objectToGrab != null)
+        {
+            objectToGrab.transform.SetParent(null);
+            Rigidbody rb = objectToGrab.GetComponent<Rigidbody>();
+            rb.isKinematic = false;
+            activeHandGrab.currentGrabableObject = null;
+            _isGrabbed = false;
+        }
     }
 }
