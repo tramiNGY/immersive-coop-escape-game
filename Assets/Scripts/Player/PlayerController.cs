@@ -186,7 +186,7 @@ public class PlayerController : NetworkBehaviour
     }
 
     private void HandleRightArmPerformed()
-     {
+    {
         Vector3 rightArmDelta = new Vector3(_mouseDelta.x, _mouseDelta.y, 0f);
 
         _rightArmPosition -= _bodyTransform.right * rightArmDelta.x;
