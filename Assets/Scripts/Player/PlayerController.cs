@@ -262,7 +262,7 @@ public class PlayerController : NetworkBehaviour
         {
             objectToGrab.transform.SetParent(null);
             Rigidbody rb = objectToGrab.GetComponent<Rigidbody>();
-            rb.isKinematic = true;
+            rb.isKinematic = false;
             activeHandGrab.currentGrabableObject = null;
             _isGrabbed = false;
         }
