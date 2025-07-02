@@ -480,26 +480,6 @@ PrefabInstance:
       propertyPath: CompassCollider
       value: 
       objectReference: {fileID: 63840520}
-    - target: {fileID: -5252610431495945033, guid: c364e930ae3571a4c9af74b0559ada9f, type: 3}
-      propertyPath: MagicLanternLight.a
-      value: 0.7176471
-      objectReference: {fileID: 0}
-    - target: {fileID: -5252610431495945033, guid: c364e930ae3571a4c9af74b0559ada9f, type: 3}
-      propertyPath: MagicLanternLight.b
-      value: 0.8226415
-      objectReference: {fileID: 0}
-    - target: {fileID: -5252610431495945033, guid: c364e930ae3571a4c9af74b0559ada9f, type: 3}
-      propertyPath: MagicLanternLight.g
-      value: 0.8112344
-      objectReference: {fileID: 0}
-    - target: {fileID: -5252610431495945033, guid: c364e930ae3571a4c9af74b0559ada9f, type: 3}
-      propertyPath: MagicLanternLight.r
-      value: 0.1800498
-      objectReference: {fileID: 0}
-    - target: {fileID: 3924167380489674260, guid: c364e930ae3571a4c9af74b0559ada9f, type: 3}
-      propertyPath: m_IsTrigger
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 8373621910668988545, guid: c364e930ae3571a4c9af74b0559ada9f, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.412
