@@ -10,11 +10,13 @@ public class LanternBlueLight : MonoBehaviour
     [SerializeField] private Color MagicLanternLight = Color.blue;
     [SerializeField] private float LanternTransitionSpeed = 1f;
     private bool LanternChangeColor = false;
-    
+    [SerializeField] private ParticleSystem LanternParticles;
+
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        LanternParticles.Stop();
 
     }
 
@@ -43,6 +45,7 @@ public class LanternBlueLight : MonoBehaviour
         if (other == CompassCollider)
         {
             LanternChangeColor = true;
+            LanternParticles.Play();
         }
     }
 }
