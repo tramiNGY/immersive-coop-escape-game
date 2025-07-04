@@ -5,15 +5,32 @@ using UnityEngine.UI;
 public class SceneLoader : MonoBehaviour
 {
     public Image SceneTransitionImage;
+    [SerializeField] private string currentScene = "";
 
     private void Awake()
     {
         DontDestroyOnLoad(gameObject); // Make SceneManager object persistent in all scenes
     }
+    
     public void LoadScene(string newScene)
     {
         SceneTransitionImage.gameObject.SetActive(true);
         SceneTransitionImage.color = new Color(0, 0, 0, 1f); // RGB + alpha: 0 transparent -> 1 opaque
-        SceneManager.LoadScene(newScene);
+
+        // Start loading new scene asynchronously in additive mode
+        AsyncOperation loadOp = SceneManager.LoadSceneAsync(newScene, LoadSceneMode.Additive);
+
+        // When new scene has finished loading
+        loadOp.completed += (AsyncOperation op) =>
+        {
+            if (!string.IsNullOrEmpty(currentScene)) // of there is a previous scene
+            {
+                SceneManager.UnloadSceneAsync(currentScene); // unload scene asynchronously
+            }
+
+            currentScene = newScene; // update currentscene to new scene
+
+            SceneTransitionImage.gameObject.SetActive(false); // disable transition image to see new scene
+        };
     }
 }
