@@ -5,6 +5,11 @@ using UnityEngine.UI;
 public class SceneLoader : MonoBehaviour
 {
     public Image SceneTransitionImage;
+
+    private void Awake()
+    {
+        DontDestroyOnLoad(gameObject); // Make SceneManager object persistent in all scenes
+    }
     public void LoadScene(string newScene)
     {
         SceneTransitionImage.gameObject.SetActive(true);
