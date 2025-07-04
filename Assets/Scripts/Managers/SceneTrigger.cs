@@ -12,4 +12,12 @@ public class SceneTrigger : MonoBehaviour
             sceneLoader.LoadScene(newScene);
         }
     }
+
+    public void ColliderTriggerSceneChange(Collider other) // triggers scene change if player collider enters triggering object collider
+    {
+        if (other.CompareTag("Player"))
+        {
+            TriggerSceneChange(newScene);
+        }
+    }
 }
