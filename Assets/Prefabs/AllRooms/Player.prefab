@@ -1168,7 +1168,7 @@ MonoBehaviour:
   syncInterval: 0
   role: 0
   currentScene: 
-  _playerCamera: {fileID: 2992770964117869200}
+  _playerCamera: {fileID: 5133514929788453798}
   _headTarget: {fileID: 4657319873465953314}
   _headTargetDistance: 2
   _mouseSensitivity: 5
@@ -2336,7 +2336,7 @@ Camera:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5565621881543942674}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_ClearFlags: 1
   m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
@@ -2387,7 +2387,7 @@ AudioListener:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5565621881543942674}
-  m_Enabled: 1
+  m_Enabled: 0
 --- !u!114 &2722979955969059195
 MonoBehaviour:
   m_ObjectHideFlags: 0
