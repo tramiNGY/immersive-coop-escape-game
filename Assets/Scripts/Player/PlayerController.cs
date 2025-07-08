@@ -169,7 +169,9 @@ public class PlayerController : NetworkBehaviour
     private void HandleMove()
     {
         Vector3 moveDirection = new Vector3(_moveInput.x, 0, _moveInput.y); // .x Horizontal (left/right), .y Vertical (up/down), .z Depth (forward/backward)
-        transform.position = transform.position + moveDirection * _moveSpeed * Time.deltaTime;
+        Quaternion rotationDirection = Quaternion.LookRotation(moveDirection, Vector3.up); // direction to aim movement in up (forward direction)
+        transform.position = transform.position + moveDirection * _moveSpeed * Time.deltaTime; // move player position
+        transform.rotation = Quaternion.Slerp(transform.rotation, rotationDirection, Time.deltaTime * 10f); // rotate player to direction
     }
 
     private void HandleLook()
