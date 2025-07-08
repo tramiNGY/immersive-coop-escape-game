@@ -70,10 +70,12 @@ public class PlayerController : NetworkBehaviour
         Debug.Log("current scene: " + currentScene);
 
         _playerCamera.enabled = true; // Only enable localPlayer Camera per client
+        _playerCamera.GetComponent<AudioListener>().enabled = true;
 
         if (!isLocalPlayer)
         {
             _playerCamera.enabled = false; // Disable other client's camera
+            _playerCamera.GetComponent<AudioListener>().enabled = false; // Cannot have 2 active audio listeners in the scene
         }
         if (currentScene == "Room1_Sea")
             {
