@@ -10,7 +10,7 @@ public class PlayerController : NetworkBehaviour
     [SyncVar] public PlayerRole role;
     public string currentScene;
     // Action Look
-    [SerializeField] private Transform _playerCamera;
+    [SerializeField] private Camera _playerCamera; // HeadCamera of Local player
     [SerializeField] private Transform _headTarget; // Multi-aim constraint playerCamera following headTarget
     [SerializeField] private float _headTargetDistance = 2f; // distance of headTarget in front of playerCamera
     [SerializeField] private float _mouseSensitivity = 5f;
@@ -36,7 +36,7 @@ public class PlayerController : NetworkBehaviour
     void Start()
     {
         currentScene = SceneManager.GetActiveScene().name;
-        Cursor.lockState = CursorLockMode.Locked; // mouse pointer locked to center of view constrained in window, invisible
+        Cursor.lockState = CursorLockMode.None; // mouse pointer locked to center of view constrained in window, invisible
     }
 
     // Update is called once per frame
@@ -58,30 +58,37 @@ public class PlayerController : NetworkBehaviour
         else // No mouse click hold -> Move HeadTarget -> Head Camera follows
         {
             HandleLook();
-            _headTarget.position = _playerCamera.position + _playerCamera.forward * _headTargetDistance; // Places headTarget position in front of the new playerCamera direction
-            _headTarget.rotation = _playerCamera.rotation;
+            _headTarget.position = _playerCamera.transform.position + _playerCamera.transform.forward * _headTargetDistance; // Places headTarget position in front of the new playerCamera direction
+            _headTarget.rotation = _playerCamera.transform.rotation;
         }
     }
 
     // Mirror Callbacks
     public override void OnStartLocalPlayer()
     {
+        DontDestroyOnLoad(gameObject); // Make Player persistant when changing scenes
         Debug.Log("current scene: " + currentScene);
 
-        if (currentScene == "Room1_Sea")
-        {
-            if (isServer)
-            {
-                Debug.Log("This is the host Player1");
-                role = PlayerRole.Player1;
-            }
+        _playerCamera.enabled = true; // Only enable localPlayer Camera per client
 
-            else
-            {
-                Debug.Log("This is the client Player2");
-                role = PlayerRole.Player2;
-            }
+        if (!isLocalPlayer)
+        {
+            _playerCamera.enabled = false; // Disable other client's camera
         }
+        if (currentScene == "Room1_Sea")
+            {
+                if (isServer)
+                {
+                    Debug.Log("This is the host Player1");
+                    role = PlayerRole.Player1;
+                }
+
+                else
+                {
+                    Debug.Log("This is the client Player2");
+                    role = PlayerRole.Player2;
+                }
+            }
     }
 
     // Input System Events
@@ -151,7 +158,7 @@ public class PlayerController : NetworkBehaviour
         _yYaw += deltaX;
         _yYaw = Mathf.Clamp(_yYaw, -60f, 60f);
 
-        _playerCamera.localRotation = Quaternion.Euler(_xPitch, _yYaw, 0f); // Camera local rotation from euler's angles
+        _playerCamera.transform.localRotation = Quaternion.Euler(_xPitch, _yYaw, 0f); // Camera local rotation from euler's angles
     }
 
     private void HandleLeftArmStart()
