@@ -9,6 +9,9 @@ public class PlayerController : NetworkBehaviour
     public enum PlayerRole { Player1, Player2 };
     [SyncVar] public PlayerRole role;
     public string currentScene;
+    // Action Move
+    [SerializeField] private float _moveSpeed = 2f;
+    private Vector2 _moveInput;
     // Action Look
     [SerializeField] private Camera _playerCamera; // HeadCamera of Local player
     [SerializeField] private Transform _headTarget; // Multi-aim constraint playerCamera following headTarget
@@ -30,13 +33,14 @@ public class PlayerController : NetworkBehaviour
     private bool _isGrabbed = false;
     [SerializeField] private HandGrabDetector _leftHandGrabDetector;
     [SerializeField] private HandGrabDetector _rightHandGrabDetector;
-    
+
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         currentScene = SceneManager.GetActiveScene().name;
         Cursor.lockState = CursorLockMode.None; // mouse pointer locked to center of view constrained in window, invisible
+
     }
 
     // Update is called once per frame
@@ -63,6 +67,11 @@ public class PlayerController : NetworkBehaviour
         }
     }
 
+    void FixedUpdate()
+    {
+        HandleMove();
+    }
+
     // Mirror Callbacks
     public override void OnStartLocalPlayer()
     {
@@ -76,6 +85,7 @@ public class PlayerController : NetworkBehaviour
         {
             _playerCamera.enabled = false; // Disable other client's camera
             _playerCamera.GetComponent<AudioListener>().enabled = false; // Cannot have 2 active audio listeners in the scene
+
         }
         if (currentScene == "Room1_Sea")
             {
@@ -94,6 +104,12 @@ public class PlayerController : NetworkBehaviour
     }
 
     // Input System Events
+    public void OnMove(InputAction.CallbackContext context)
+    {
+        _moveInput = context.ReadValue<Vector2>();
+        Debug.Log("Move input .x: " + _moveInput.x + "Move input .y: " + _moveInput.y);
+    }
+
     public void OnLook(InputAction.CallbackContext context)
     {
         _mouseDelta = context.ReadValue<Vector2>();
@@ -150,6 +166,12 @@ public class PlayerController : NetworkBehaviour
     }
 
     // Input Logic
+    private void HandleMove()
+    {
+        Vector3 moveDirection = new Vector3(_moveInput.x, 0, _moveInput.y); // .x Horizontal (left/right), .y Vertical (up/down), .z Depth (forward/backward)
+        transform.position = transform.position + moveDirection * _moveSpeed * Time.deltaTime;
+    }
+
     private void HandleLook()
     {
         float deltaX = _mouseDelta.x * _mouseSensitivity * Time.deltaTime; // deltaTime to make movement independant from frame rate FPS
