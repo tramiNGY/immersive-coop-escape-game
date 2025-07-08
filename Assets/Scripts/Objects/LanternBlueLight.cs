@@ -12,6 +12,8 @@ public class LanternBlueLight : MonoBehaviour
     private bool LanternChangeColor = false;
     [SerializeField] private ParticleSystem LanternParticles;
 
+    public SceneTrigger sceneTrigger;
+    private bool hasTriggeredSceneChange = false;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -37,6 +39,12 @@ public class LanternBlueLight : MonoBehaviour
             LanternLight4.color = Color.Lerp(LanternLight4.color, MagicLanternLight, Time.deltaTime * LanternTransitionSpeed);
             LanternLight4.intensity = Mathf.Lerp(LanternLight4.intensity, 0.8f, Time.deltaTime * LanternTransitionSpeed);
             LanternLight4.range = Mathf.Lerp(LanternLight4.range, 2f, Time.deltaTime * LanternTransitionSpeed);
+
+            if (!hasTriggeredSceneChange)
+            {
+                sceneTrigger.TriggerSceneChange("Room2_Beach");
+                hasTriggeredSceneChange = true;
+            }
         }
     }
 
