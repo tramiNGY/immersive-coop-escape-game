@@ -13,7 +13,7 @@ public class SceneTrigger : MonoBehaviour
         }
     }
 
-    public void ColliderTriggerSceneChange(Collider other) // triggers scene change if player collider enters triggering object collider
+    public void OnTriggerEnter(Collider other) // triggers scene change if player collider enters triggering object collider
     {
         if (other.CompareTag("Player"))
         {
