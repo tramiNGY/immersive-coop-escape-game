@@ -17,6 +17,8 @@ public class SceneTrigger : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
+            GetComponent<Collider>().enabled = false;
+            GetComponent<MeshRenderer>().enabled = false;
             TriggerSceneChange(newScene);
         }
     }
