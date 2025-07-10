@@ -3,7 +3,12 @@ using UnityEngine;
 public class SceneTrigger : MonoBehaviour
 {
     public string newScene;
-    public SceneLoader sceneLoader;
+    private SceneLoader sceneLoader;
+
+    public void Start()
+    {
+        sceneLoader = FindAnyObjectByType<SceneLoader>(); // Search for the SceneLoader from all scenes common SceneManager
+    }
 
     public void TriggerSceneChange(string newScene)
     {
@@ -17,8 +22,7 @@ public class SceneTrigger : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            GetComponent<Collider>().enabled = false;
-            GetComponent<MeshRenderer>().enabled = false;
+            Debug.Log($"[SceneTrigger] Triggered by: {gameObject.name}, loading scene: {newScene}");
             TriggerSceneChange(newScene);
         }
     }
