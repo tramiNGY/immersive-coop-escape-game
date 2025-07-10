@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 
 public class LanternBlueLight : MonoBehaviour
 {
@@ -12,14 +13,13 @@ public class LanternBlueLight : MonoBehaviour
     private bool LanternChangeColor = false;
     [SerializeField] private ParticleSystem LanternParticles;
 
-    public SceneTrigger sceneTrigger;
-    private bool hasTriggeredSceneChange = false;
+    private SceneLoader sceneLoader;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         LanternParticles.Stop();
-
+        sceneLoader = FindAnyObjectByType<SceneLoader>();
     }
 
     // Update is called once per frame
@@ -39,12 +39,6 @@ public class LanternBlueLight : MonoBehaviour
             LanternLight4.color = Color.Lerp(LanternLight4.color, MagicLanternLight, Time.deltaTime * LanternTransitionSpeed);
             LanternLight4.intensity = Mathf.Lerp(LanternLight4.intensity, 0.8f, Time.deltaTime * LanternTransitionSpeed);
             LanternLight4.range = Mathf.Lerp(LanternLight4.range, 2f, Time.deltaTime * LanternTransitionSpeed);
-
-            if (!hasTriggeredSceneChange)
-            {
-                sceneTrigger.TriggerSceneChange("Room2_Beach");
-                hasTriggeredSceneChange = true;
-            }
         }
     }
 
@@ -54,6 +48,13 @@ public class LanternBlueLight : MonoBehaviour
         {
             LanternChangeColor = true;
             LanternParticles.Play();
+            StartCoroutine(DelayedScene()); // start wait coroutine after scene trigger event finished
         }
     }
+
+    IEnumerator DelayedScene() // coroutine to delay change of scene
+    {
+        yield return new WaitForSeconds(5f);
+        sceneLoader.LoadScene("Room2_Beach"); // after delay, directly load the new scene
+    }    
 }
