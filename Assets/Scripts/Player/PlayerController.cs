@@ -169,14 +169,15 @@ public class PlayerController : NetworkBehaviour
     // Input Logic
     private void HandleMove()
     {
-        Vector3 moveDirection = new Vector3(_moveInput.x, 0, _moveInput.y); // .x Horizontal (left/right), .y Vertical (up/down), .z Depth (forward/backward)
+        Vector3 localDirection = new Vector3(_moveInput.x, 0, _moveInput.y); // .x Horizontal (left/right), .y Vertical (up/down), .z Depth (forward/backward)
+        Vector3 moveDirection = transform.TransformDirection(localDirection); // converts local direction to world direction
 
         if (moveDirection.sqrMagnitude > 0f) // prevent rotation reset when no movement keep last rotation, sqrMagnitude over Magnitude to reduce calculation time for comparison and not exact value
         {
             _rotationDirection = Quaternion.LookRotation(moveDirection, Vector3.up); // direction to aim movement in up (forward direction)
         }
         transform.position = transform.position + moveDirection * _moveSpeed * Time.deltaTime; // move player position
-        transform.rotation = Quaternion.Slerp(transform.rotation, _rotationDirection, Time.deltaTime * 10f); // rotate player to direction
+        transform.rotation = Quaternion.Slerp(transform.rotation, _rotationDirection, Time.deltaTime * 5f); // rotate player to direction
     }
 
     private void HandleLook()
