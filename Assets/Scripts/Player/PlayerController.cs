@@ -2,16 +2,18 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.InputSystem;
 using Mirror;
+using System;
 
 
 public class PlayerController : NetworkBehaviour
 {
-    public enum PlayerRole { Player1, Player2 };
-    [SyncVar] public PlayerRole role;
+    //public enum PlayerRole { Player1, Player2 };
+    //[SyncVar] public PlayerRole role;
     public string currentScene;
     // Action Move
     [SerializeField] private float _moveSpeed = 2f;
     private Vector2 _moveInput;
+    private Quaternion _rotationDirection;
     // Action Look
     [SerializeField] private Camera _playerCamera; // HeadCamera of Local player
     [SerializeField] private Transform _headTarget; // Multi-aim constraint playerCamera following headTarget
@@ -87,20 +89,19 @@ public class PlayerController : NetworkBehaviour
             _playerCamera.GetComponent<AudioListener>().enabled = false; // Cannot have 2 active audio listeners in the scene
 
         }
-        if (currentScene == "Room1_Sea")
-            {
-                if (isServer)
-                {
-                    Debug.Log("This is the host Player1");
-                    role = PlayerRole.Player1;
-                }
+    /*  
+        if (isServer)
+        {
+            Debug.Log("This is the host Player1");
+            role = PlayerRole.Player1;
+        }
 
-                else
-                {
-                    Debug.Log("This is the client Player2");
-                    role = PlayerRole.Player2;
-                }
-            }
+        else
+        {
+            Debug.Log("This is the client Player2");
+            role = PlayerRole.Player2;
+        }
+    */    
     }
 
     // Input System Events
@@ -169,9 +170,13 @@ public class PlayerController : NetworkBehaviour
     private void HandleMove()
     {
         Vector3 moveDirection = new Vector3(_moveInput.x, 0, _moveInput.y); // .x Horizontal (left/right), .y Vertical (up/down), .z Depth (forward/backward)
-        Quaternion rotationDirection = Quaternion.LookRotation(moveDirection, Vector3.up); // direction to aim movement in up (forward direction)
+
+        if (moveDirection.sqrMagnitude > 0f) // prevent rotation reset when no movement keep last rotation, sqrMagnitude over Magnitude to reduce calculation time for comparison and not exact value
+        {
+            _rotationDirection = Quaternion.LookRotation(moveDirection, Vector3.up); // direction to aim movement in up (forward direction)
+        }
         transform.position = transform.position + moveDirection * _moveSpeed * Time.deltaTime; // move player position
-        transform.rotation = Quaternion.Slerp(transform.rotation, rotationDirection, Time.deltaTime * 10f); // rotate player to direction
+        transform.rotation = Quaternion.Slerp(transform.rotation, _rotationDirection, Time.deltaTime * 10f); // rotate player to direction
     }
 
     private void HandleLook()
