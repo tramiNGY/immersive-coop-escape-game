@@ -840,7 +840,7 @@ GameObject:
   - component: {fileID: 2281727402459098497}
   - component: {fileID: 5447312611960816712}
   - component: {fileID: 8242394537213244658}
-  - component: {fileID: 8966192087596457030}
+  - component: {fileID: 4224525540856046162}
   - component: {fileID: 8702752347695651248}
   - component: {fileID: 2513552590256337555}
   m_Layer: 0
@@ -1174,9 +1174,10 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  role: 0
   currentScene: 
   _moveSpeed: 2
+  _rigidbody: {fileID: 4224525540856046162}
+  _rotationSpeed: 360
   _playerCamera: {fileID: 5133514929788453798}
   _headTarget: {fileID: 4657319873465953314}
   _headTargetDistance: 2
@@ -1187,31 +1188,33 @@ MonoBehaviour:
   _armDistance: 1.5
   _leftHandGrabDetector: {fileID: 7239254758377897364}
   _rightHandGrabDetector: {fileID: 2750512845911234368}
---- !u!143 &8966192087596457030
-CharacterController:
+--- !u!54 &4224525540856046162
+Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2530941298446013139}
-  m_Material: {fileID: 0}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Height: 2
-  m_Radius: 0.5
-  m_SlopeLimit: 45
-  m_StepOffset: 0.3
-  m_SkinWidth: 0.08
-  m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 0, z: 0}
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!114 &8702752347695651248
 MonoBehaviour:
   m_ObjectHideFlags: 0
