@@ -13,7 +13,8 @@ public class PlayerController : NetworkBehaviour
     // Action Move
     [SerializeField] private float _moveSpeed = 2f;
     private Vector2 _moveInput;
-    private Quaternion _rotationDirection;
+    [SerializeField] private Rigidbody _rigidbody;
+    [SerializeField] private float _rotationSpeed = 360f;
     // Action Look
     [SerializeField] private Camera _playerCamera; // HeadCamera of Local player
     [SerializeField] private Transform _headTarget; // Multi-aim constraint playerCamera following headTarget
@@ -71,7 +72,7 @@ public class PlayerController : NetworkBehaviour
 
     void FixedUpdate()
     {
-        HandleMove();
+        HandleMove(); // FixedUpdate called in sync with physics, avoid updating Rigidbody in Update() unstable
     }
 
     // Mirror Callbacks
@@ -169,15 +170,24 @@ public class PlayerController : NetworkBehaviour
     // Input Logic
     private void HandleMove()
     {
-        Vector3 localDirection = new Vector3(_moveInput.x, 0, _moveInput.y); // .x Horizontal (left/right), .y Vertical (up/down), .z Depth (forward/backward)
-        Vector3 moveDirection = transform.TransformDirection(localDirection); // converts local direction to world direction
+         Vector3 localDirection = new Vector3(_moveInput.x, 0, _moveInput.y); // .x Horizontal (left/right), .y Vertical (up/down), .z Depth (forward/backward)
 
-        if (moveDirection.sqrMagnitude > 0f) // prevent rotation reset when no movement keep last rotation, sqrMagnitude over Magnitude to reduce calculation time for comparison and not exact value
+        if (localDirection.sqrMagnitude > 0f)
         {
-            _rotationDirection = Quaternion.LookRotation(moveDirection, Vector3.up); // direction to aim movement in up (forward direction)
+            Vector3 direction = localDirection.normalized; // normalize vector to 1 to keep consistent speed in all directions (not faster in diagonal)
+            Vector3 worldDirection = transform.TransformDirection(direction); // converts local direction to world space (based on player orientation)
+            Debug.Log($"[Move] Input: {_moveInput}, MoveWorld: {worldDirection}");
+
+            // Use Rigidbody movement  and rotation to respect physics and collisions (avoid transform.position/.rotation which skips physics)
+            // Movement
+            Vector3 newPosition = _rigidbody.position + worldDirection * _moveSpeed * Time.fixedDeltaTime; 
+            _rigidbody.MovePosition(newPosition);
+
+            // Rotation
+            Quaternion targetRotation = Quaternion.LookRotation(worldDirection);
+            Quaternion newRotation = Quaternion.RotateTowards(_rigidbody.rotation, targetRotation, _rotationSpeed * Time.fixedDeltaTime);
+            _rigidbody.MoveRotation(newRotation);
         }
-        transform.position = transform.position + moveDirection * _moveSpeed * Time.deltaTime; // move player position
-        transform.rotation = Quaternion.Slerp(transform.rotation, _rotationDirection, Time.deltaTime * 5f); // rotate player to direction
     }
 
     private void HandleLook()
