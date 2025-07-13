@@ -58,6 +58,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "Release",
+                    "type": "Button",
+                    "id": "133158a1-ad87-4738-b41b-a4553b0a89b6",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -316,12 +325,23 @@
                 },
                 {
                     "name": "",
-                    "id": "7cef3eb8-081a-4e1f-9fb6-536d43ac00a7",
+                    "id": "4b63d200-052e-4b7b-aba4-1d2c756f42e7",
+                    "path": "<Keyboard>/r",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard&Mouse",
+                    "action": "Release",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "a5234a1e-b5d3-415e-a83f-88ff796ce1a0",
                     "path": "<Gamepad>/rightTrigger",
                     "interactions": "",
                     "processors": "",
                     "groups": ";Gamepad",
-                    "action": "Grab",
+                    "action": "Release",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
