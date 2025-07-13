@@ -150,6 +150,14 @@ public class PlayerController : NetworkBehaviour
         }
     }
 
+    public void OnRelease(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            HandleRelease();
+        }
+    }
+
     // Input Logic
     private void HandleMove()
     {
@@ -246,8 +254,11 @@ public class PlayerController : NetworkBehaviour
         Debug.Log("Grab action triggered");
         if (!_isGrabbed)
             StartGrab();
-        else
-            StopGrab();
+    }
+
+    private void HandleRelease()
+    {
+        StopGrab();
     }
 
     private void StartGrab()
