@@ -196,15 +196,16 @@ public class PlayerController : NetworkBehaviour
         Vector3 leftArmDelta = new Vector3(_mouseDelta.x * _armMouseSensitibity, _mouseDelta.y * _armMouseSensitibity, 0f); // Mouse movement
 
         _leftArmPosition -= _bodyTransform.right * leftArmDelta.x; // Arm's position based on mouse movement
-        _leftArmPosition.x = Mathf.Clamp(_leftArmPosition.x, -4f, 1f); // Limit arm's position left/right
+        _leftArmPosition.x = Mathf.Clamp(_leftArmPosition.x, -1.5f, 1f); // Limit arm's position left/right
         _leftArmPosition += _bodyTransform.up * leftArmDelta.y;
-        _leftArmPosition.y = Mathf.Clamp(_leftArmPosition.y, -5f, 5f); // Limit arm's position up/down
+        _leftArmPosition.y = Mathf.Clamp(_leftArmPosition.y, -1f, 1.5f); // Limit arm's position down/up
+        _leftArmPosition.z = Mathf.Clamp(_leftArmPosition.z, 0f, 1f); // Limit arm's position backward/forward
 
         Vector3 baseLeftArmPosition = _bodyTransform.position - _bodyTransform.forward * _armDistance; // Base arm's position when click in front of torso
 
         Vector3 leftTargetPosition = _leftArmPosition + baseLeftArmPosition;
 
-        _leftArmIKTarget.position = Vector3.Lerp(_leftArmIKTarget.position, leftTargetPosition, 0.2f * Time.deltaTime); // Lerp Linear interpolation between 2 frames arm's position to smooth movement
+        _leftArmIKTarget.position = Vector3.Lerp(_leftArmIKTarget.position, leftTargetPosition, 0.4f * Time.deltaTime); // Lerp Linear interpolation between 2 frames arm's position to smooth movement
     }
 
     private void HandleLeftArmCanceled()
@@ -222,15 +223,16 @@ public class PlayerController : NetworkBehaviour
         Vector3 rightArmDelta = new Vector3(_mouseDelta.x * _armMouseSensitibity, _mouseDelta.y *_armMouseSensitibity, 0f);
 
         _rightArmPosition -= _bodyTransform.right * rightArmDelta.x;
-        _rightArmPosition.x = Mathf.Clamp(_rightArmPosition.x, -1f, 4f);
+        _rightArmPosition.x = Mathf.Clamp(_rightArmPosition.x, -1.5f, 1f);
         _rightArmPosition += _bodyTransform.up * rightArmDelta.y;
-        _rightArmPosition.y = Mathf.Clamp(_rightArmPosition.y, -5f, 5f);
+        _rightArmPosition.y = Mathf.Clamp(_rightArmPosition.y, -1f, 1.5f);
+        _rightArmPosition.z = Mathf.Clamp(_leftArmPosition.z, 0f, 1f);
 
         Vector3 baseRightArmPosition = _bodyTransform.position - _bodyTransform.forward * _armDistance;
 
         Vector3 rightTargetPosition = _rightArmPosition + baseRightArmPosition;
 
-        _rightArmIKTarget.position = Vector3.Lerp(_rightArmIKTarget.position, rightTargetPosition, 0.8f * Time.deltaTime);
+        _rightArmIKTarget.position = Vector3.Lerp(_rightArmIKTarget.position, rightTargetPosition, 0.4f * Time.deltaTime);
 
     }
 
