@@ -1,28 +1,25 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.InputSystem;
 using Mirror;
-using System;
 
 
 public class PlayerController : NetworkBehaviour
 {
-    //public enum PlayerRole { Player1, Player2 };
-    //[SyncVar] public PlayerRole role;
-    public string currentScene;
     // Action Move
     [SerializeField] private float _moveSpeed = 2f;
     private Vector2 _moveInput;
     [SerializeField] private Rigidbody _rigidbody;
     [SerializeField] private float _rotationSpeed = 360f;
+
     // Action Look
     [SerializeField] private Camera _playerCamera; // HeadCamera of Local player
     [SerializeField] private Transform _headTarget; // Multi-aim constraint playerCamera following headTarget
     [SerializeField] private float _headTargetDistance = 2f; // distance of headTarget in front of playerCamera
-    [SerializeField] private float _mouseSensitivity = 5f;
+    [SerializeField] private float _mouseSensitivity = 5f; // speed move for head camera
     private Vector2 _mouseDelta; // Mouse movement
     private float _xPitch = 0f; // Vertical rotation around x axis
     private float _yYaw = 0f; // Horizontal rotation around y axis
+
     // Actions HoldLeftArm and HoldRightArm
     private bool _isLeftArmActive = false;
     private bool _isRightArmActive = false;
@@ -32,6 +29,8 @@ public class PlayerController : NetworkBehaviour
     [SerializeField] private float _armDistance = 1.5f; // arm's base distance from torso
     private Vector3 _leftArmPosition = Vector3.zero;
     private Vector3 _rightArmPosition = Vector3.zero;
+    [SerializeField] private float _armMouseSensitibity = 0.5f; // speed move for arms
+
     // Action Grab
     private bool _isGrabbed = false;
     [SerializeField] private HandGrabDetector _leftHandGrabDetector;
@@ -41,9 +40,7 @@ public class PlayerController : NetworkBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        currentScene = SceneManager.GetActiveScene().name;
         Cursor.lockState = CursorLockMode.None; // mouse pointer locked to center of view constrained in window, invisible
-
     }
 
     // Update is called once per frame
@@ -79,7 +76,6 @@ public class PlayerController : NetworkBehaviour
     public override void OnStartLocalPlayer()
     {
         DontDestroyOnLoad(gameObject); // Make Player persistant when changing scenes
-        Debug.Log("current scene: " + currentScene);
 
         _playerCamera.enabled = true; // Only enable localPlayer Camera per client
         _playerCamera.GetComponent<AudioListener>().enabled = true;
@@ -90,19 +86,6 @@ public class PlayerController : NetworkBehaviour
             _playerCamera.GetComponent<AudioListener>().enabled = false; // Cannot have 2 active audio listeners in the scene
 
         }
-    /*  
-        if (isServer)
-        {
-            Debug.Log("This is the host Player1");
-            role = PlayerRole.Player1;
-        }
-
-        else
-        {
-            Debug.Log("This is the client Player2");
-            role = PlayerRole.Player2;
-        }
-    */    
     }
 
     // Input System Events
@@ -170,7 +153,7 @@ public class PlayerController : NetworkBehaviour
     // Input Logic
     private void HandleMove()
     {
-         Vector3 localDirection = new Vector3(_moveInput.x, 0, _moveInput.y); // .x Horizontal (left/right), .y Vertical (up/down), .z Depth (forward/backward)
+        Vector3 localDirection = new Vector3(_moveInput.x, 0, _moveInput.y); // .x Horizontal (left/right), .y Vertical (up/down), .z Depth (forward/backward)
 
         if (localDirection.sqrMagnitude > 0f)
         {
@@ -180,7 +163,7 @@ public class PlayerController : NetworkBehaviour
 
             // Use Rigidbody movement  and rotation to respect physics and collisions (avoid transform.position/.rotation which skips physics)
             // Movement
-            Vector3 newPosition = _rigidbody.position + worldDirection * _moveSpeed * Time.fixedDeltaTime; 
+            Vector3 newPosition = _rigidbody.position + worldDirection * _moveSpeed * Time.fixedDeltaTime;
             _rigidbody.MovePosition(newPosition);
 
             // Rotation
@@ -196,7 +179,7 @@ public class PlayerController : NetworkBehaviour
         float deltaY = _mouseDelta.y * _mouseSensitivity * Time.deltaTime;
 
         _xPitch -= deltaY;
-        _xPitch = Mathf.Clamp(_xPitch, -80f, 80f); // Limit Head camera realistic rotation
+        _xPitch = Mathf.Clamp(_xPitch, -30f, 80f); // Limit Head camera realistic rotation
         _yYaw += deltaX;
         _yYaw = Mathf.Clamp(_yYaw, -60f, 60f);
 
@@ -210,7 +193,7 @@ public class PlayerController : NetworkBehaviour
 
     private void HandleLeftArmPerformed()
     {
-        Vector3 leftArmDelta = new Vector3(_mouseDelta.x, _mouseDelta.y, 0f); // Mouse movement
+        Vector3 leftArmDelta = new Vector3(_mouseDelta.x * _armMouseSensitibity, _mouseDelta.y * _armMouseSensitibity, 0f); // Mouse movement
 
         _leftArmPosition -= _bodyTransform.right * leftArmDelta.x; // Arm's position based on mouse movement
         _leftArmPosition.x = Mathf.Clamp(_leftArmPosition.x, -4f, 1f); // Limit arm's position left/right
@@ -221,7 +204,7 @@ public class PlayerController : NetworkBehaviour
 
         Vector3 leftTargetPosition = _leftArmPosition + baseLeftArmPosition;
 
-        _leftArmIKTarget.position = Vector3.Lerp(_leftArmIKTarget.position, leftTargetPosition, 0.8f * Time.deltaTime); // Lerp Linear interpolation between 2 frames arm's position to smooth movement
+        _leftArmIKTarget.position = Vector3.Lerp(_leftArmIKTarget.position, leftTargetPosition, 0.2f * Time.deltaTime); // Lerp Linear interpolation between 2 frames arm's position to smooth movement
     }
 
     private void HandleLeftArmCanceled()
@@ -236,7 +219,7 @@ public class PlayerController : NetworkBehaviour
 
     private void HandleRightArmPerformed()
     {
-        Vector3 rightArmDelta = new Vector3(_mouseDelta.x, _mouseDelta.y, 0f);
+        Vector3 rightArmDelta = new Vector3(_mouseDelta.x * _armMouseSensitibity, _mouseDelta.y *_armMouseSensitibity, 0f);
 
         _rightArmPosition -= _bodyTransform.right * rightArmDelta.x;
         _rightArmPosition.x = Mathf.Clamp(_rightArmPosition.x, -1f, 4f);
@@ -247,7 +230,7 @@ public class PlayerController : NetworkBehaviour
 
         Vector3 rightTargetPosition = _rightArmPosition + baseRightArmPosition;
 
-        _rightArmIKTarget.position =  Vector3.Lerp(_rightArmIKTarget.position, rightTargetPosition, 0.8f * Time.deltaTime);
+        _rightArmIKTarget.position = Vector3.Lerp(_rightArmIKTarget.position, rightTargetPosition, 0.8f * Time.deltaTime);
 
     }
 
