@@ -50,9 +50,10 @@ Shader "Unlit/RunesFade"
             {
                 fixed4 col = tex2D(_MainTex, i.uv);
 
-                // Wipe effect from left(0) to right(1)
+                // Wipe effect from rune pos right(0) to left(1)
+                // runes plane is facing the player, so left/right inverted to fade from left->right when reading
                 // smoothstep for a smooth fade on 0.1 UV
-                float alphaMask = smoothstep(_FadeAmount - 0.1, _FadeAmount, i.uv.x);
+                float alphaMask = smoothstep(_FadeAmount, _FadeAmount - 0.1, i.uv.x);
 
                 col.a *= alphaMask;
 
