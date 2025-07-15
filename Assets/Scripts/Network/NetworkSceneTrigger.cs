@@ -1,10 +1,11 @@
 using UnityEngine;
 using Mirror;
 
+// Handles scene transition trigger
 public class NetworkSceneTrigger : NetworkBehaviour
 {
     [SerializeField] private string newScene;
-    
+
     // Flag to avoid changing scene multiple times
     private static bool sceneChanging = false;
 
