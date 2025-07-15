@@ -19,6 +19,7 @@ public class PlayerController : NetworkBehaviour
     private Vector2 _mouseDelta; // Mouse movement
     private float _xPitch = 0f; // Vertical rotation around x axis
     private float _yYaw = 0f; // Horizontal rotation around y axis
+    private Vector3 _playerCameraPosition;
 
     // Actions HoldLeftArm and HoldRightArm
     private bool _isLeftArmActive = false;
@@ -85,6 +86,21 @@ public class PlayerController : NetworkBehaviour
             _playerCamera.enabled = false; // Disable other client's camera
             _playerCamera.GetComponent<AudioListener>().enabled = false; // Cannot have 2 active audio listeners in the scene
 
+        }
+        
+        string currentScene = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name; // Fetch current scene
+
+        _playerCameraPosition = _playerCamera.transform.localPosition; // Stock original headcamera position (at IdleStand height)
+
+        if (currentScene == "Room1_Sea") // Scene where player is IdleSit
+        {
+            Vector3 camPos = _playerCamera.transform.localPosition;
+            camPos.y -= 0.5f; // Lower camera's height by 50cm (matches head when sitted)
+            _playerCamera.transform.localPosition = camPos;
+        }
+        else
+        {
+            _playerCamera.transform.localPosition = _playerCameraPosition; // default headcamera position
         }
     }
 
