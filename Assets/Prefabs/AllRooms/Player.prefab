@@ -840,13 +840,15 @@ GameObject:
   - component: {fileID: 2281727402459098497}
   - component: {fileID: 5447312611960816712}
   - component: {fileID: 8242394537213244658}
+  - component: {fileID: 2539170566689983703}
   - component: {fileID: 4224525540856046162}
+  - component: {fileID: 3547190034244250339}
   - component: {fileID: 8702752347695651248}
   - component: {fileID: 2513552590256337555}
-  - component: {fileID: 3547190034244250339}
   - component: {fileID: 3040662690279613949}
   - component: {fileID: 5815417405075364314}
   - component: {fileID: 7690808721071318059}
+  - component: {fileID: 3408104379843396899}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -1158,6 +1160,22 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: b6d93455-4f0f-4fcf-a7a8-461ebeafb664
     m_ActionName: 'Player/Grab[/Keyboard/e]'
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8242394537213244658}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_MethodName: OnRelease
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 133158a1-ad87-4738-b41b-a4553b0a89b6
+    m_ActionName: 'Player/Release[/Keyboard/r,/XInputControllerWindows/rightTrigger]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -1178,7 +1196,6 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  currentScene: 
   _moveSpeed: 2
   _rigidbody: {fileID: 4224525540856046162}
   _rotationSpeed: 360
@@ -1190,8 +1207,24 @@ MonoBehaviour:
   _leftArmIKTarget: {fileID: 7475632224488807038}
   _rightArmIKTarget: {fileID: 9223123736994391617}
   _armDistance: 1.5
+  _armMouseSensitibity: 0.5
   _leftHandGrabDetector: {fileID: 7239254758377897364}
   _rightHandGrabDetector: {fileID: 2750512845911234368}
+--- !u!114 &2539170566689983703
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2530941298446013139}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 36837230a0f00ec4aaef6cc015360d3e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
 --- !u!54 &4224525540856046162
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1219,6 +1252,29 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!136 &3547190034244250339
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2530941298446013139}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.27
+  m_Height: 1.69
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.88, z: 0}
 --- !u!114 &8702752347695651248
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1269,29 +1325,6 @@ MonoBehaviour:
   showGizmos: 0
   showOverlay: 0
   overlayColor: {r: 0, g: 0, b: 0, a: 0.5}
---- !u!136 &3547190034244250339
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2530941298446013139}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.27
-  m_Height: 1.69
-  m_Direction: 1
-  m_Center: {x: 0, y: 0.88, z: 0}
 --- !u!114 &3040662690279613949
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1391,6 +1424,23 @@ MonoBehaviour:
   showGizmos: 0
   showOverlay: 0
   overlayColor: {r: 0, g: 0, b: 0, a: 0.5}
+--- !u!114 &3408104379843396899
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2530941298446013139}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f6f3bf89aa97405989c802ba270f815, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 1
+  syncMode: 0
+  syncInterval: 0
+  clientAuthority: 1
+  animator: {fileID: 609061039965036830}
 --- !u!1 &2579647669345269400
 GameObject:
   m_ObjectHideFlags: 0
