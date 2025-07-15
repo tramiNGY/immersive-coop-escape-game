@@ -28,7 +28,9 @@ public class CustomNetworkManager : NetworkManager
     // Called when new player joins server
     public override void OnServerAddPlayer(NetworkConnectionToClient conn)
     {
-        base.OnServerAddPlayer(conn); // spawn player prefav and assign it to the connection
+        Transform startPos = GetStartPositionForPlayer(conn); // Get available start position
+        GameObject playerInstance = Instantiate(playerPrefab, startPos.position, startPos.rotation); // instantiate player at that position
+        NetworkServer.AddPlayerForConnection(conn, playerInstance); // spawn player and associate it with the connection
 
         string currentScene = SceneManager.GetActiveScene().name;
         int playerMove = GetPlayerMove(currentScene);
@@ -57,5 +59,19 @@ public class CustomNetworkManager : NetworkManager
             default:
                 return 0; // Default IdleStand
         }
+    }
+
+    // Determins where a new player should spawn
+    private Transform GetStartPositionForPlayer(NetworkConnectionToClient conn)
+    {
+        if (startPositions.Count == 0) // if no startPositions in list
+        {
+            Debug.LogWarning("No start positions found, defaulting to Vector3.zero");
+            return new GameObject("FallbackSpawn").transform;
+        }
+
+        // Round-robin logic ensures each player has different spot
+        int index = conn.connectionId % startPositions.Count; // select a unique spawn index based on player's connection ID (Player 0 -> index 0)
+        return startPositions[index]; // return selected spawn Transform to use when instantiating the player
     }
 }
