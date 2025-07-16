@@ -419,6 +419,7 @@ GameObject:
   - component: {fileID: 2528550540480964263}
   - component: {fileID: 7612042088974087852}
   - component: {fileID: 155487785553424877}
+  - component: {fileID: 6709834599269662131}
   m_Layer: 0
   m_Name: benchrune1
   m_TagString: Untagged
@@ -501,7 +502,7 @@ MeshCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2948672322077908289}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 66b2185cfd521374daf2df5974b06c19, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -513,9 +514,36 @@ MeshCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 5
-  m_Convex: 0
+  m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!54 &6709834599269662131
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2948672322077908289}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 126
+  m_CollisionDetection: 0
 --- !u!1 &3478867628475368271
 GameObject:
   m_ObjectHideFlags: 0
@@ -988,7 +1016,7 @@ MeshCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4276822893724917238}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 66b2185cfd521374daf2df5974b06c19, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
