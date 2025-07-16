@@ -5370,15 +5370,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 0c0b41898cb575445938bcae6a49ec7c, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.412
+      value: -0.418
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 0c0b41898cb575445938bcae6a49ec7c, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.091
+      value: 0.127
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 0c0b41898cb575445938bcae6a49ec7c, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.348
+      value: 0.323
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 0c0b41898cb575445938bcae6a49ec7c, type: 3}
       propertyPath: m_LocalRotation.w
@@ -5489,7 +5489,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.05, y: 0.05, z: 0.05}
+  m_Size: {x: 0.07, y: 0.07, z: 0.07}
   m_Center: {x: -0.0000000046566124, y: -0.000000004656612, z: 0.019561052}
 --- !u!54 &4506219556318598207
 Rigidbody:
@@ -5513,11 +5513,11 @@ Rigidbody:
     m_Bits: 0
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 126
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!114 &-5252610431495945033
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5538,3 +5538,4 @@ MonoBehaviour:
   MagicLanternLight: {r: 0.1800498, g: 0.8112344, b: 0.8226415, a: 0.7176471}
   LanternTransitionSpeed: 1
   LanternParticles: {fileID: 1998171087055872776}
+  runesFade: {fileID: 0}
